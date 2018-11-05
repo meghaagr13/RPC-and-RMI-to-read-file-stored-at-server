@@ -3,7 +3,7 @@
 const MAXSIZE = 512;
 
 struct opnds { 
-	string fileName<MAXSIZE>;
+	const char* fileName<MAXSIZE>;
 	int startLine;
 	int endLine;
 
@@ -13,7 +13,7 @@ typedef struct opnds opnds;
 
 const MAXBUF=512;
 union results switch (int status) {
- 	case 0: char recvVal[MAXBUF]; 
+ 	case 0: char* recvVal; 
  	case 1: void;
 	case 2: int reason;
  };

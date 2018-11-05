@@ -5,11 +5,14 @@
  */
 
 #include "simp.h"
-
+#include <rpc/rpc.h>
 
 void
-simp_prog_1(host)
+simp_prog_1(host, fileName, startLine, endLine)
 char *host;
+char* fileName;
+int startLine;
+int endLine;
 {
 	CLIENT *clnt;
 	results  *result_1;
@@ -19,7 +22,8 @@ char *host;
 		clnt_pcreateerror(host);
 		exit(1);
 	}
-	result_1 = readfile_1(&readfile_1_arg, clnt);
+
+	result_1 = readfile_1(&readfile_1_arg, clnt, fileName, startLine, endLine );
 	if (result_1 == NULL) {
 		clnt_perror(clnt, "call failed:");
 	}
@@ -33,10 +37,13 @@ char *argv[];
 {
 	char *host;
 
-	if(argc < 2) {
+	if(argc < 5) {
 		printf("usage: %s server_host\n", argv[0]);
 		exit(1);
 	}
 	host = argv[1];
-	simp_prog_1( host );
+	char *fileName = argv[2];
+	int startLine = argv[3];
+	int endLine = argv[4]; 
+	simp_prog_1( host, fileName, startLine, endLine);
 }

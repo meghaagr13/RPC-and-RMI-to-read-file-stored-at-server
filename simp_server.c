@@ -12,10 +12,11 @@ readfile_1(argp, rqstp)
 	struct svc_req *rqstp;
 {
 	static results  result;
-	int startLine = opnds.startLine;
-	int endLine = opnds.endLine;
-	char filename[] = opnds.fileName;
-	FILE *file = fopen(opnds.fileName, "r");
+	int startLine = opnds->startLine;
+	int endLine = opnds->endLine;
+	char filename[] = opnds->fileName;
+	FILE *file = fopen(opnds->fileName, "r");
+	
 	int count = 0;
 	if( file != NULL )
 	{
@@ -24,8 +25,8 @@ readfile_1(argp, rqstp)
 	    {   
 	        if (count == startLine)
 	        {   
-	        	result.status=0;
-				strcat(result.recvVal,line);
+	        	result->status=0;
+				strcat(result->recvVal,line);
 	        }
 	        count++;
 	    

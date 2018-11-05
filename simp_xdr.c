@@ -11,7 +11,7 @@ xdr_opnds(xdrs, objp)
 	opnds *objp;
 {
 
-	if (!xdr_string(xdrs, &objp->fileName, MAXSIZE))
+	if (!xdr_array(xdrs, (char **)&objp->fileName.fileName_val, (u_int *)&objp->fileName.fileName_len, MAXSIZE, sizeof(char), (xdrproc_t)xdr_char))
 		return (FALSE);
 	if (!xdr_int(xdrs, &objp->startLine))
 		return (FALSE);
@@ -30,7 +30,7 @@ xdr_results(xdrs, objp)
 		return (FALSE);
 	switch (objp->status) {
 	case 0:
-		if (!xdr_vector(xdrs, (char *)objp->results_u.recvVal, MAXBUF, sizeof(char), (xdrproc_t)xdr_char))
+		if (!xdr_pointer(xdrs, (char **)&objp->results_u.recvVal, sizeof(char), (xdrproc_t)xdr_char))
 			return (FALSE);
 		break;
 	case 1:

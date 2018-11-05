@@ -13,7 +13,10 @@
 #define MAXSIZE 512
 
 struct opnds {
-	char *fileName;
+	struct {
+		u_int fileName_len;
+		char *fileName_val;
+	} fileName;
 	int startLine;
 	int endLine;
 };
@@ -40,7 +43,7 @@ bool_t xdr_opnds();
 struct results {
 	int status;
 	union {
-		char recvVal[MAXBUF];
+		char *recvVal;
 		int reason;
 	} results_u;
 };

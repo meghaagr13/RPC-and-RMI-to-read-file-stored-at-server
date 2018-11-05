@@ -3,7 +3,7 @@
 const MAXSIZE = 512;
 
 struct opnds { 
-	const char* fileName<MAXSIZE>;
+	char fileName<MAXSIZE>;
 	int startLine;
 	int endLine;
 

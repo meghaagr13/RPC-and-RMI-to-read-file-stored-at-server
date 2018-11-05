@@ -5,7 +5,7 @@
  */
 
 #include "simp.h"
-#include <rpc/rpc.h>
+
 
 void
 simp_prog_1(host, fileName, startLine, endLine)
@@ -23,12 +23,13 @@ int endLine;
 		exit(1);
 	}
 
-	result_1 = readfile_1(&readfile_1_arg, clnt, fileName, startLine, endLine );
+	result_1 = readfile_1(&readfile_1_arg, clnt );
 	if (result_1 == NULL) {
 		clnt_perror(clnt, "call failed:");
 	}
 	clnt_destroy( clnt );
 }
+
 
 
 main(argc, argv)

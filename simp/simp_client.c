@@ -5,7 +5,11 @@
  */
 
 #include "simp.h"
-
+int min(int a,int b){
+	if(a<b)
+		return a;
+	return b;
+}
 
 void
 simp_prog_1(char *host, char* fileName, int startLine,int endLine)
@@ -13,9 +17,6 @@ simp_prog_1(char *host, char* fileName, int startLine,int endLine)
 	CLIENT *clnt;
 	results  *result_1;
 	opnds  readfile_1_arg;
-	readfile_1_arg.startLine = startLine;
-	readfile_1_arg.endLine = endLine;
-	readfile_1_arg.fileName = fileName;
 #ifndef	DEBUG
 	clnt = clnt_create (host, SIMP_PROG, SIMP_VERS, "udp");
 	if (clnt == NULL) {
@@ -23,13 +24,19 @@ simp_prog_1(char *host, char* fileName, int startLine,int endLine)
 		exit (1);
 	}
 #endif	/* DEBUG */
-
-	result_1 = readfile_1(&readfile_1_arg, clnt);
-	if (result_1 == (results *) NULL) {
-		clnt_perror (clnt, "call failed");
-	}
-	else{
-		printf(" Line is %s", result_1->results_u.recvVal);
+	while(startLine<=endLine)
+	{
+		readfile_1_arg.startLine = startLine;
+		readfile_1_arg.endLine = min(startLine+10,endLine);
+		readfile_1_arg.fileName = fileName;
+		result_1 = readfile_1(&readfile_1_arg, clnt);
+		startLine +=11;
+		if (result_1 == (results *) NULL) {
+			clnt_perror (clnt, "call failed");
+		}
+		else{
+			printf("%s", result_1->results_u.recvVal);
+		} 
 	}
 #ifndef	DEBUG
 	clnt_destroy (clnt);

@@ -5,6 +5,7 @@
  */
 
 #include "simp.h"
+#include<unistd.h>
 
 results *
 readfile_1_svc(opnds *argp, struct svc_req *rqstp)
@@ -14,12 +15,15 @@ readfile_1_svc(opnds *argp, struct svc_req *rqstp)
 	int endLine = argp->endLine;
 //	printf("These are the lines of code %d %d",startLine,endLine);
 	//char filename[] = opnds->fileName;
-	FILE *file = fopen(argp->fileName, "rb");
+	//char cwd[512];
+	//getcwd(cwd,sizeof(cwd));
+	FILE *file = fopen(argp->fileName, "r");
 	
 	int count = 0;
-	char buff[1000000];
+	char buff[10000];
 	if( file != NULL )
 	{	//printf("I am here where are you");
+		memset(buff,0,10000);
 	    char line[256]; /* or other suitable maximum line size */
 	    while (startLine <= endLine && fgets(line, sizeof(line), file) != NULL) /* read a line */
 	    {   
@@ -32,7 +36,8 @@ readfile_1_svc(opnds *argp, struct svc_req *rqstp)
 		//printf("I am reading file");
 	        count++;
 	    
-	    }   
+	    }  
+	
 	    	fclose(file);
 		result.results_u.recvVal = buff;
 		//printf("Line is %s\n",result.results_u.recvVal);

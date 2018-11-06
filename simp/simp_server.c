@@ -12,31 +12,34 @@ readfile_1_svc(opnds *argp, struct svc_req *rqstp)
 	static results  result;
 	int startLine = argp->startLine;
 	int endLine = argp->endLine;
-	printf("These are the lines of code %d %d",startLine,endLine);
+//	printf("These are the lines of code %d %d",startLine,endLine);
 	//char filename[] = opnds->fileName;
 	FILE *file = fopen(argp->fileName, "rb");
 	
 	int count = 0;
+	char buff[1000000];
 	if( file != NULL )
-	{	printf("I am here where are you");
+	{	//printf("I am here where are you");
 	    char line[256]; /* or other suitable maximum line size */
-	    while (fgets(line, sizeof(line), file) != NULL) /* read a line */
+	    while (startLine <= endLine && fgets(line, sizeof(line), file) != NULL) /* read a line */
 	    {   
-	        if (count == startLine)
+	        if (count >= startLine && count <= endLine)
 	        {  
-			printf("Line read by server  is %s\n",line); 
+			//printf("Line read by server  is %s\n",line); 
 	        	result.status=0;
-			strcat(result.results_u.recvVal,line);
+			strcat(buff,line);
 	        }
-		printf("I am reading file");
+		//printf("I am reading file");
 	        count++;
 	    
 	    }   
-	    fclose(file);
+	    	fclose(file);
+		result.results_u.recvVal = buff;
+		//printf("Line is %s\n",result.results_u.recvVal);
 	}
 	else
 	{
-	    printf("Not exist");
+	    printf("File does not exist");
 	    //file doesn't exist
 	/*
 	 * insert server code here

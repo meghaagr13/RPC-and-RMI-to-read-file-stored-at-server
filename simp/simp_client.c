@@ -29,7 +29,7 @@ simp_prog_1(char *host, char* fileName, int startLine,int endLine)
 		clnt_perror (clnt, "call failed");
 	}
 	else{
-		printf(" Line is %d", result_1->status);
+		printf(" Line is %s", result_1->results_u.recvVal);
 	}
 #ifndef	DEBUG
 	clnt_destroy (clnt);

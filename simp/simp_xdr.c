@@ -28,7 +28,7 @@ xdr_results (XDR *xdrs, results *objp)
 		 return FALSE;
 	switch (objp->status) {
 	case 0:
-		 if (!xdr_pointer (xdrs, (char **)&objp->results_u.recvVal, sizeof (char), (xdrproc_t) xdr_char))
+		 if (!xdr_string (xdrs, &objp->results_u.recvVal, ~0))
 			 return FALSE;
 		break;
 	case 1:
